@@ -8,7 +8,18 @@ import { urlFor } from '@/sanity/lib/image';
 export default function ProjectsPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const sectionRef = useRef(null);
+
+  const categories = [
+    { title: 'All Projects', value: 'all' },
+    { title: 'Residential', value: 'residential' },
+    { title: 'Hospitality', value: 'hospitality' },
+    { title: 'Commercial', value: 'commercial' },
+    { title: 'Public', value: 'public' },
+    { title: 'Master Planning', value: 'master-planning' },
+    { title: 'Mixed Use', value: 'mixed-use' },
+  ];
 
   // IntersectionObserver for fade/slide-in animation
   useEffect(() => {
@@ -33,14 +44,20 @@ export default function ProjectsPage() {
   useEffect(() => {
     client
       .fetch(`*[_type == "project"] | order(priority desc){
-      title,
-      "slug": slug.current,
-      mainImage,
-    }`)
+        title,
+        "slug": slug.current,
+        mainImage,
+        category
+      }`)
       .then((data) => setProjects(data))
       .catch(console.error);
   }, []);
 
+  // Filter projects by category
+  const filteredProjects =
+    selectedCategory === 'all'
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
   return (
     <section
@@ -48,12 +65,32 @@ export default function ProjectsPage() {
       className="bg-white text-black px-4 2xl:px-0 pt-32 pb-32"
     >
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight w-full md:w-[70%] mb-24">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight w-full md:w-[70%] mb-12">
           Selected projects that met our clients' lot conditions, lifestyle, and budget.
         </h1>
 
+        {/* Category Filter */}
+        <div className="flex flex-wrap gap-3 mb-24">
+          {categories.map((cat) => (
+            <button
+              key={cat.value}
+              onClick={() => setSelectedCategory(cat.value)}
+              className={`
+                px-5 py-2 text-sm font-medium tracking-tight transition-all duration-300
+                ${
+                  selectedCategory === cat.value
+                    ? 'bg-black text-white'
+                    : 'bg-gray-100 text-black hover:bg-gray-200'
+                }
+              `}
+            >
+              {cat.title}
+            </button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 2xl:gap-x-8 gap-y-14">
-          {projects.map((project, idx) => (
+          {filteredProjects.map((project, idx) => (
             <Link
               key={`${project.slug}-${idx}`}
               href={`/projects/${project.slug}`}
@@ -73,8 +110,11 @@ export default function ProjectsPage() {
                   />
                 )}
 
-                {/* Title inside the image */}
+                {/* Title and Category inside the image */}
                 <div className="absolute bottom-0 left-0 px-4 py-2 bg-white transition-colors duration-300 ease-out group-hover:bg-black">
+                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1 transition-colors duration-300 ease-out group-hover:text-gray-300">
+                    {project.category?.replace('-', ' ')}
+                  </p>
                   <h2 className="text-xl md:text-2xl font-bold tracking-tight text-black transition-colors duration-300 ease-out group-hover:text-white">
                     {project.title}
                   </h2>
