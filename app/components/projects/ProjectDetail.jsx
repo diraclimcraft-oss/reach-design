@@ -41,6 +41,7 @@ export default function ProjectDetail() {
       .fetch(
         `*[_type == "project" && slug.current == $slug][0]{
           title,
+          category,
           mainImage,
           "images": images[].asset->url,
           description,
@@ -104,7 +105,7 @@ export default function ProjectDetail() {
   }
 
   const videoId = getYouTubeID(project.video);
-  
+
   // Debug log
   console.log('Video URL from Sanity:', project.video);
   console.log('Extracted Video ID:', videoId);
@@ -139,6 +140,12 @@ export default function ProjectDetail() {
             <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight mb-4">{project.title}</h1>
 
             <div className="space-y-2 text-sm text-gray-300 mb-6">
+              {project.category && (
+                    <p>
+                      <span className="text-white font-semibold">Category:</span>{' '}
+                      {project.category.replace(/-/g, ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())}
+                    </p>
+                  )}
               {project.location && <p><span className="text-white font-semibold">Location:</span> {project.location}</p>}
               {project.noOfStories && <p><span className="text-white font-semibold">Stories:</span> {project.noOfStories}</p>}
               {project.siteArea && <p><span className="text-white font-semibold">Site Area:</span> {project.siteArea} m²</p>}
@@ -164,7 +171,7 @@ export default function ProjectDetail() {
           {project.video && videoId && (
             <div className="px-4 py-8">
               <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-gray-900">
-                <a 
+                <a
                   href={`https://www.youtube.com/watch?v=${videoId}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -177,7 +184,7 @@ export default function ProjectDetail() {
                 >
                   <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">
                     <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
+                      <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>
                 </a>
@@ -212,7 +219,13 @@ export default function ProjectDetail() {
               <div className="max-w-2xl text-white">
                 <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-6">{project.title}</h1>
 
-                <div className="space-y-3 text-base text-gray-300 mb-6">
+                <div className="space-y-3 text-lg text-gray-300 mb-6">
+                  {project.category && (
+                    <p>
+                      <span className="text-white font-semibold">Category:</span>{' '}
+                      {project.category.replace(/-/g, ' ').toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())}
+                    </p>
+                  )}
                   {project.location && <p><span className="text-white font-semibold">Location:</span> {project.location}</p>}
                   {project.noOfStories && <p><span className="text-white font-semibold">Stories:</span> {project.noOfStories}</p>}
                   {project.siteArea && <p><span className="text-white font-semibold">Site Area:</span> {project.siteArea} m²</p>}
@@ -239,7 +252,7 @@ export default function ProjectDetail() {
             {project.video && videoId && (
               <div className="shrink-0 h-screen flex items-center justify-center w-screen px-16 bg-black">
                 <div className="relative w-full max-w-5xl aspect-video rounded-lg overflow-hidden bg-gray-900">
-                  <a 
+                  <a
                     href={`https://www.youtube.com/watch?v=${videoId}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -252,7 +265,7 @@ export default function ProjectDetail() {
                   >
                     <div className="w-24 h-24 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-700 transition-colors">
                       <svg className="w-12 h-12 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
+                        <path d="M8 5v14l11-7z" />
                       </svg>
                     </div>
                   </a>
