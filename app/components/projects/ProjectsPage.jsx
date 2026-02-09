@@ -89,40 +89,49 @@ export default function ProjectsPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 2xl:gap-x-8 gap-y-14">
-          {filteredProjects.map((project, idx) => (
-            <Link
-              key={`${project.slug}-${idx}`}
-              href={`/projects/${project.slug}`}
-              style={{ transitionDelay: `${idx * 140}ms` }}
-              className={`
-                group cursor-pointer block
-                transition-all duration-700 ease-out
-                ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-              `}
-            >
-              <div className="relative overflow-hidden">
-                {project.mainImage && (
-                  <img
-                    src={urlFor(project.mainImage).width(1200).url()}
-                    alt={project.title}
-                    className="w-full h-[70vh] object-cover transition-all duration-300 ease-out group-hover:grayscale"
-                  />
-                )}
+        {/* Empty State */}
+        {filteredProjects.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-2xl font-light text-gray-600">
+              No projects in this category yet.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 2xl:gap-x-8 gap-y-14">
+            {filteredProjects.map((project, idx) => (
+              <Link
+                key={`${project.slug}-${idx}`}
+                href={`/projects/${project.slug}`}
+                style={{ transitionDelay: `${idx * 140}ms` }}
+                className={`
+                  group cursor-pointer block
+                  transition-all duration-700 ease-out
+                  ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+                `}
+              >
+                <div className="relative overflow-hidden">
+                  {project.mainImage && (
+                    <img
+                      src={urlFor(project.mainImage).width(1200).url()}
+                      alt={project.title}
+                      className="w-full h-[70vh] object-cover transition-all duration-300 ease-out group-hover:grayscale"
+                    />
+                  )}
 
-                {/* Title and Category inside the image */}
-                <div className="absolute bottom-0 left-0 px-4 py-2 bg-white transition-colors duration-300 ease-out group-hover:bg-black">
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1 transition-colors duration-300 ease-out group-hover:text-gray-300">
-                    {project.category?.replace('-', ' ')}
-                  </p>
-                  <h2 className="text-xl md:text-2xl font-bold tracking-tight text-black transition-colors duration-300 ease-out group-hover:text-white">
-                    {project.title}
-                  </h2>
+                  {/* Title and Category inside the image */}
+                  <div className="absolute bottom-0 left-0 px-4 py-2 bg-white transition-colors duration-300 ease-out group-hover:bg-black">
+                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1 transition-colors duration-300 ease-out group-hover:text-gray-300">
+                      {project.category?.replace('-', ' ')}
+                    </p>
+                    <h2 className="text-xl md:text-2xl font-bold tracking-tight text-black transition-colors duration-300 ease-out group-hover:text-white">
+                      {project.title}
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
