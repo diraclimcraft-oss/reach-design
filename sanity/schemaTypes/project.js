@@ -20,6 +20,23 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: "category",
+      title: "Category",
+      type: "string",
+      options: {
+        list: [
+          { title: "Residential", value: "residential" },
+          { title: "Hospitality", value: "hospitality" },
+          { title: "Commercial", value: "commercial" },
+          { title: "Public", value: "public" },
+          { title: "Master Planning", value: "master-planning" },
+          { title: "Mixed Use", value: "mixed-use" },
+        ],
+        layout: "dropdown",
+      },
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: "mainImage",
       title: "Main Image",
       type: "image",
