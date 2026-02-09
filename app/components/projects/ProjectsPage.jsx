@@ -76,11 +76,10 @@ export default function ProjectsPage() {
               key={cat.value}
               onClick={() => setSelectedCategory(cat.value)}
               className={`
-                px-5 py-2 text-sm font-medium tracking-tight transition-all duration-300
-                ${
-                  selectedCategory === cat.value
-                    ? 'bg-black text-white'
-                    : 'bg-gray-100 text-black hover:bg-gray-200'
+                px-5 py-2 text-base md:text-lg font-medium tracking-tight transition-all duration-300
+                ${selectedCategory === cat.value
+                  ? 'bg-black text-white'
+                  : 'bg-gray-200 text-black hover:bg-gray-200'
                 }
               `}
             >
@@ -120,11 +119,8 @@ export default function ProjectsPage() {
 
                   {/* Title and Category inside the image */}
                   <div className="absolute bottom-0 left-0 px-4 py-2 bg-white transition-colors duration-300 ease-out group-hover:bg-black">
-                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1 transition-colors duration-300 ease-out group-hover:text-gray-300">
-                      {project.category?.replace('-', ' ')}
-                    </p>
                     <h2 className="text-xl md:text-2xl font-bold tracking-tight text-black transition-colors duration-300 ease-out group-hover:text-white">
-                      {project.title}
+                      {project.title.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())}
                     </h2>
                   </div>
                 </div>
