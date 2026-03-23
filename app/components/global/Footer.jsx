@@ -87,7 +87,7 @@ export default function Footer() {
                 {/* Copyright */}
                 <div className="border-t border-black/20 pt-6">
                     <p className="text-xs tracking-wide">
-                        © 2025 Reach Design Studios. All Rigts Reserved.
+                        © 2026 Reach Design Studios. All Rigts Reserved.
                     </p>
                 </div>
             </div>
